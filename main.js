@@ -44,6 +44,10 @@ console.groupCollapsed('y2');
   }
 console.groupEnd();
 
+
+    //função para inserir valores depois de editados em texto
+    insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2);
+
   }
 
 
@@ -86,6 +90,12 @@ function editTxt(busca,texto){
         vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
        //soma vetor se valor após o ponto for maior que 5. Ex.: 35.6 fica 36 e  35.4 fica 35
         vetor[i]++;
+
+         //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator
+         // (depois coloca o box em 100%) - to fixed é para deixar em 1 casa decimal
+        vetor[i] = (vetor[i] / 841*100).toFixed(1);
+
+
       } 
       else {
      //array valores 
@@ -95,6 +105,11 @@ function editTxt(busca,texto){
    vetor[i]= vetor[i].match(/\d/g);
    //tira espaços do vetor
    vetor[i] = vetor[i].join("");
+
+   //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator (depois coloca o box em 100%)
+   vetor[i] = (vetor[i] / 841*100).toFixed(2);
+
+  
  
   }
      //corta a parte do texto que já achou o x1 o procura o próximo x1 
@@ -105,5 +120,69 @@ function editTxt(busca,texto){
     return vetor;
   }
 
+function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
+  
+  var txt = texto;
+  var i = 0;
+  var somaLocal =0;
+  var cortes = [];
+  //busca parte do texto onde têm o valor enviado na busca
 
+
+    //local onde se inicia os parametros do sgv fill, stroke....
+    var localParametro = txt.search('line');
+
+    //variavel que guarda valores do parametro
+    var txtParametro = txt.slice(localParametro-1,txt.search('x1'));
+    
+
+  while (txt.search('x1') != -1) {
+
+    //encontra o local na string onde se encontra o x1='1234'
+    var local =  txt.search('x1');
+
+  
+      somaLocal = somaLocal +parseInt(local);
+   ////   console.log("soma local "+somaLocal);
+
+      
+      cortes[i]   = somaLocal;
+     
+     // console.log("tamanho do texto "+txt.length);
+
+       //só preciso ir somando vetorLocal num outro vetor (esses valores serão os locais para inserir o x1,x2etc...)
+    //  console.log("vetor local x1 achado "+ local + "que fica em "+txt[local]);
+
+    
+
+     
+         //corta a parte do texto que já achou o x1 o procura o próximo x1 
+      txt = txt.slice(local+5, txt.length);
+      i++;
+
+    
+  }
+
+
+  texto = texto.slice(0,localParametro-1);
+
+
+// texto = texto + 'x1="'+vetorX1[0]+'%" '+'x2="'+vetorX2[0]+'%" '+'y1="'+vetorY1[0]+'%" '+'y2="'+vetorY2[0]+'%"/>';
+ // texto = texto.push('qualquer coisa');
+
+
+
+    for(i=0;  i < cortes.length; i++){
+     // console.log(cortes[i]+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>');
+
+     
+    texto = texto + txtParametro+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>';
+    }
+    texto=texto+'</sgv>'
+    console.log(texto);
+
+  
+
+  //  console.log("teste insere valor função" + res);
+}
 

@@ -69,7 +69,11 @@ function editTxt(busca,texto){
    //Pega os 4 caracteres após o local q se encontra na busca (ou seja o valor width/heigth)
    vetor[i] = texto.substr(local+4,4);
 
+
    vetor[i]=vetor[i].slice(0,local);
+
+   
+  // console.log(vetor[i]);
 
    //verifica se têm ponto na string
    if(vetor[i].indexOf(".") != -1){
@@ -77,41 +81,47 @@ function editTxt(busca,texto){
     //encontra o local onde esta o ponto  
      var place = vetor[i].indexOf(".");
 
-    //pega valor apos a antes o ponto
-    var valorAposPonto = place+1;
+    //pega valor apos e antes o ponto
+    var valorAposPonto = place;
     var valorAntesPonto = place-1; 
 
+      //corta string apos o ponto (ex. 35.6 fica 35)
+      vetor[i] = vetor[i].slice(0,place);
+
    // console.log("valor antes do ponto "+vetor[i][valorAntesPonto]);
-   // console.log("valor depois do ponto "+vetor[i][valorAposPonto]);
+   // console.log("valor depois do ponto "+vetor[i][valorAposPonto+1]);
    }
       if(vetor[i][valorAposPonto]>5){
  
         //corta string apos o ponto (ex. 35.6 fica 35)
         vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
+
        //soma vetor se valor após o ponto for maior que 5. Ex.: 35.6 fica 36 e  35.4 fica 35
         vetor[i]++;
 
-         //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator
-         // (depois coloca o box em 100%) - to fixed é para deixar em 1 casa decimal
-        vetor[i] = (vetor[i] / 841*100).toFixed(1);
-
-
-      } 
+      }
       else {
      //array valores 
      vetor[i]=vetor[i].slice(0,place);
 
    //tira numeros do vetor
-   vetor[i]= vetor[i].match(/\d/g);
-   //tira espaços do vetor
-   vetor[i] = vetor[i].join("");
+   //vetor[i]= vetor[i].match(/\d/g);
 
-   //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator (depois coloca o box em 100%)
-   vetor[i] = (vetor[i] / 841*100).toFixed(2);
+   vetor[i] = vetor[i].split("").filter(Number).join("");
+
+   vetor[i] = vetor[i].replace(/[^0-9]/g,'');
+   //tira espaços do vetor
+
+   //console.log(vetor[i]);
+  // vetor[i] = vetor[i].join("");
+  }
 
   
- 
-  }
+  console.log("Sem o ponto "+vetor[i]);
+  
+   //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator (depois coloca o box em 100%)
+   vetor[i] = (vetor[i] / 841*100).toFixed(2);
+   
      //corta a parte do texto que já achou o x1 o procura o próximo x1 
       texto = texto.slice(local+5, texto.length);
       i++;
@@ -119,7 +129,7 @@ function editTxt(busca,texto){
     //retorna vetor com valores
     return vetor;
   }
-
+/*
 function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
   
   var txt = texto;
@@ -185,4 +195,4 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
   //  console.log("teste insere valor função" + res);
 }
-
+*/

@@ -3,21 +3,31 @@ function btnTxtArea(){
  //pega o texto que esta no text area
  let texto = document.getElementById("exampleFormControlTextarea1").value;
  
- let i = 0;
- let vetorX1 = [];
- let vetorY1 = [];
- let vetorX2 = [];
- let vetorY2 = [];
+    let i = 0;
+    let vetorX1 = [];
+    let vetorY1 = [];
+    let vetorX2 = [];
+    let vetorY2 = [];
 
- //preenche o vetor com valores de x1 (width) e y1 (heigh)
- vetorX1 =  editTxt('x1',texto);
- vetorY1 =  editTxt('y1',texto);
- vetorX2 =  editTxt('x2',texto);
- vetorY2 =  editTxt('y2',texto);
 
+    //preenche o vetor com valores de x1 (width) e y1 (heigh)
+    vetorX1 =  editTxt('x1=',texto);
+    vetorY1 =  editTxt('y1=',texto);
+    vetorX2 =  editTxt('x2=',texto);
+    vetorY2 =  editTxt('y2=',texto);
+
+ //width and heigth
+ largura = AlturaLargura('width=',texto);
+ altura = AlturaLargura('eight=',texto);
+ 
+
+
+ //console logs para mostrar valores x1,y1,x2 e y2 retirados do texto
  console.groupCollapsed('x1');
+ 
   for (i = 0; i < vetorX1.length; i++) {
     console.log("Array X1 - " +  vetorX1[i]);
+    vetorX1[i] = (vetorX1[i] / largura*100).toFixed(2)
   }
   console.groupEnd();
 
@@ -26,6 +36,7 @@ function btnTxtArea(){
 console.groupCollapsed('y1');
   for (i = 0; i < vetorY1.length; i++) {
     console.log("Array Y1 - " +  vetorY1[i]);
+    vetorY1[i] = (vetorY1[i] / altura*100).toFixed(2)
   }
 console.groupEnd();
   
@@ -34,6 +45,7 @@ console.groupEnd();
   console.groupCollapsed('x2');
   for (i = 0; i < vetorX2.length; i++) {
     console.log("Array X2 - " +  vetorX2[i]);
+    vetorX2[i] = (vetorX2[i] / largura*100).toFixed(2)
   }
   console.groupEnd();
 
@@ -41,6 +53,7 @@ console.groupEnd();
 console.groupCollapsed('y2');
   for (i = 0; i < vetorY2.length; i++) {
     console.log("Array Y2 - " +  vetorY2[i]);
+    vetorY2[i] = (vetorY2[i] / altura*100).toFixed(2)
   }
 console.groupEnd();
 
@@ -56,7 +69,8 @@ console.groupEnd();
 function editTxt(busca,texto){
 
   var i = 0;
-
+  var valorAposPonto = 0;
+  var valorAntesPonto =0;
   //vetor onde será armazenado valores buscados no texto
   var vetor=[];
 
@@ -65,15 +79,10 @@ function editTxt(busca,texto){
    //busca parte do texto onde têm o valor enviado na busca
     var local =  texto.search(busca);
   
-    
+
    //Pega os 4 caracteres após o local q se encontra na busca (ou seja o valor width/heigth)
-   vetor[i] = texto.substr(local+4,4);
+   vetor[i] = texto.substr(local+4,6);
 
-
-   vetor[i]=vetor[i].slice(0,local);
-
-   
-  // console.log(vetor[i]);
 
    //verifica se têm ponto na string
    if(vetor[i].indexOf(".") != -1){
@@ -82,54 +91,62 @@ function editTxt(busca,texto){
      var place = vetor[i].indexOf(".");
 
     //pega valor apos e antes o ponto
-    var valorAposPonto = place;
-    var valorAntesPonto = place-1; 
-
-      //corta string apos o ponto (ex. 35.6 fica 35)
-      vetor[i] = vetor[i].slice(0,place);
+     valorAposPonto = place+1;
+     valorAntesPonto = place-1; 
 
    // console.log("valor antes do ponto "+vetor[i][valorAntesPonto]);
-   // console.log("valor depois do ponto "+vetor[i][valorAposPonto+1]);
-   }
-      if(vetor[i][valorAposPonto]>5){
+   // console.log("valor depois do ponto "+vetor[i][valorAposPonto]);
+   
+      if(vetor[i][valorAposPonto]<=5){
  
-        //corta string apos o ponto (ex. 35.6 fica 35)
-        vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
-
-       //soma vetor se valor após o ponto for maior que 5. Ex.: 35.6 fica 36 e  35.4 fica 35
-        vetor[i]++;
-
+             //corta string apos o ponto (ex. 35.3 fica 35)
+vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
       }
-      else {
-     //array valores 
-     vetor[i]=vetor[i].slice(0,place);
 
+     else if (vetor[i][valorAposPonto]>5) {
+
+      //corta string apos o ponto (ex. 35.6 fica 36)
+    vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
+
+    //soma vetor se valor após o ponto for maior que 5. Ex.: 35.6 fica 36 e  35.4 fica 35
+    vetor[i]++;
+      }
+    
+    }
+     
+     //array valores 
+//vetor[i]=vetor[i].slice(0,local);
+      
    //tira numeros do vetor
    //vetor[i]= vetor[i].match(/\d/g);
 
-   vetor[i] = vetor[i].split("").filter(Number).join("");
+  vetor[i] = parseInt(vetor[i]);
 
-   vetor[i] = vetor[i].replace(/[^0-9]/g,'');
    //tira espaços do vetor
 
+   
    //console.log(vetor[i]);
   // vetor[i] = vetor[i].join("");
-  }
-
+   
   
-  console.log("Sem o ponto "+vetor[i]);
+
+ //console.log("vetor valor trabalhado "+parseInt(vetor[i]));
+  
+//  console.log("Sem o ponto "+vetor[i]);
   
    //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator (depois coloca o box em 100%)
-   vetor[i] = (vetor[i] / 841*100).toFixed(2);
+   //vetor[i] = (vetor[i] / 841*100).toFixed(2);
    
      //corta a parte do texto que já achou o x1 o procura o próximo x1 
       texto = texto.slice(local+5, texto.length);
       i++;
     }
+  //  console.log("Tipo vetor "+ parseInt(vetor[20]));
+
     //retorna vetor com valores
     return vetor;
   }
-/*
+
 function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
   
   var txt = texto;
@@ -140,11 +157,15 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
 
     //local onde se inicia os parametros do sgv fill, stroke....
-    var localParametro = txt.search('line');
+    var localParametro = txt.search('<line');
+    var localX1 = txt.search('x1=');
+  
 
     //variavel que guarda valores do parametro
-    var txtParametro = txt.slice(localParametro-1,txt.search('x1'));
+    var txtParametro = txt.slice(localParametro-1,localX1);
     
+ console.log("txt parametro "+txtParametro);
+ 
 
   while (txt.search('x1') != -1) {
 
@@ -182,7 +203,7 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
 
 
-    for(i=0;  i < cortes.length; i++){
+    for(i=0;  i < cortes.length-2; i++){
      // console.log(cortes[i]+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>');
 
      
@@ -195,4 +216,29 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
   //  console.log("teste insere valor função" + res);
 }
-*/
+
+function AlturaLargura(busca,texto){
+
+    //txt achado e separado
+    let achado;
+
+
+   //busca parte do texto onde têm o valor enviado na busca
+   var local =  texto.search(busca);
+  
+
+   //Pega os 4 caracteres após o local q se encontra na busca (ou seja o valor width/heigth)
+   achado = texto.substr(local+7,10);
+
+    //encontra o local na string onde se encontra o aspas
+    var localAspas =  achado.search('"');
+
+    var res = achado.slice(0, localAspas-2);
+    
+   //   console.log("local aspas"+localAspas);
+
+  //  console.log("valor final "+res);
+
+    return res;
+}
+

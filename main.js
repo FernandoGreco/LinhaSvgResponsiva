@@ -1,4 +1,26 @@
+/*
+function mostrarGenero(){
+  alert('O valor selecionado é '+ getRadioValor('genero'));
+ }
+  
+ function getRadioValor(name){
+  var rads = document.getElementsByName(name);
+   
+  for(var i = 0; i < rads.length; i++){
+   if(rads[i].checked){
+    return rads[i].value;
+   }
+   
+  }
+   
+  return null;
+ }
+*/
+
+
+
 function btnTxtArea(){
+
 
  //pega o texto que esta no text area
  let texto = document.getElementById("exampleFormControlTextarea1").value;
@@ -113,36 +135,14 @@ vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
       }
     
     }
-     
-     //array valores 
-//vetor[i]=vetor[i].slice(0,local);
-      
-   //tira numeros do vetor
-   //vetor[i]= vetor[i].match(/\d/g);
+   vetor[i] = parseInt(vetor[i]);
 
-  vetor[i] = parseInt(vetor[i]);
-
-   //tira espaços do vetor
-
-   
-   //console.log(vetor[i]);
-  // vetor[i] = vetor[i].join("");
-   
-  
-
- //console.log("vetor valor trabalhado "+parseInt(vetor[i]));
-  
-//  console.log("Sem o ponto "+vetor[i]);
-  
-   //tranforma em porcentagem o valor width em relação ao tamanho do box que foi criado no illustrator (depois coloca o box em 100%)
-   //vetor[i] = (vetor[i] / 841*100).toFixed(2);
    
      //corta a parte do texto que já achou o x1 o procura o próximo x1 
       texto = texto.slice(local+5, texto.length);
       i++;
     }
-  //  console.log("Tipo vetor "+ parseInt(vetor[20]));
-
+ 
     //retorna vetor com valores
     return vetor;
   }
@@ -178,15 +178,7 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
       
       cortes[i]   = somaLocal;
-     
-     // console.log("tamanho do texto "+txt.length);
-
-       //só preciso ir somando vetorLocal num outro vetor (esses valores serão os locais para inserir o x1,x2etc...)
-    //  console.log("vetor local x1 achado "+ local + "que fica em "+txt[local]);
-
-    
-
-     
+       
          //corta a parte do texto que já achou o x1 o procura o próximo x1 
       txt = txt.slice(local+5, txt.length);
       i++;
@@ -197,12 +189,6 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
   texto = texto.slice(0,localParametro-1);
 
-
-// texto = texto + 'x1="'+vetorX1[0]+'%" '+'x2="'+vetorX2[0]+'%" '+'y1="'+vetorY1[0]+'%" '+'y2="'+vetorY2[0]+'%"/>';
- // texto = texto.push('qualquer coisa');
-
-
-
     for(i=0;  i < cortes.length-2; i++){
      // console.log(cortes[i]+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>');
 
@@ -210,11 +196,23 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
     texto = texto + txtParametro+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>';
     }
     texto=texto+'</sgv>'
+
+    //texto final
     console.log(texto);
-
-  
-
-  //  console.log("teste insere valor função" + res);
+    
+    //Copia texto (como se usuario tivesse feito um CRTL C)
+    //Cria um elemento input (pode ser um textarea)
+    let inputTest = document.createElement("input");
+    inputTest.value = texto;
+    //Anexa o elemento ao body
+    document.body.appendChild(inputTest);
+    //seleciona todo o texto do elemento
+    inputTest.select();
+    //executa o comando copy
+    //aqui é feito o ato de copiar para a area de trabalho com base na seleção
+    document.execCommand('copy');
+    //remove o elemento
+    document.body.removeChild(inputTest);
 }
 
 function AlturaLargura(busca,texto){
@@ -234,11 +232,13 @@ function AlturaLargura(busca,texto){
     var localAspas =  achado.search('"');
 
     var res = achado.slice(0, localAspas-2);
-    
-   //   console.log("local aspas"+localAspas);
-
-  //  console.log("valor final "+res);
-
-    return res;
+   
+   return res;
+  
+ 
 }
+
+
+
+
 

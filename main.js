@@ -1,27 +1,4 @@
-/*
-function mostrarGenero(){
-  alert('O valor selecionado é '+ getRadioValor('genero'));
- }
-  
- function getRadioValor(name){
-  var rads = document.getElementsByName(name);
-   
-  for(var i = 0; i < rads.length; i++){
-   if(rads[i].checked){
-    return rads[i].value;
-   }
-   
-  }
-   
-  return null;
- }
-*/
-
-
-
 function btnTxtArea(){
-
-
  //pega o texto que esta no text area
  let texto = document.getElementById("exampleFormControlTextarea1").value;
  
@@ -32,7 +9,7 @@ function btnTxtArea(){
     let vetorY2 = [];
 
 
-    //preenche o vetor com valores de x1 (width) e y1 (heigh)
+    //preenche o vetor com valores de x1/x2 (width) e y1/y2 (heigh)
     vetorX1 =  editTxt('x1=',texto);
     vetorY1 =  editTxt('y1=',texto);
     vetorX2 =  editTxt('x2=',texto);
@@ -43,7 +20,7 @@ function btnTxtArea(){
  altura = AlturaLargura('eight=',texto);
  
 
-
+ //transforma o valor px em %
  //console logs para mostrar valores x1,y1,x2 e y2 retirados do texto
  console.groupCollapsed('x1');
  
@@ -127,7 +104,7 @@ vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
 
      else if (vetor[i][valorAposPonto]>5) {
 
-      //corta string apos o ponto (ex. 35.6 fica 36)
+      //corta e somo string apos o ponto (ex. 35.6 fica 36) 
     vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
 
     //soma vetor se valor após o ponto for maior que 5. Ex.: 35.6 fica 36 e  35.4 fica 35
@@ -195,10 +172,14 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
      
     texto = texto + txtParametro+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>';
     }
-    texto=texto+'</sgv>'
+    texto=texto+'</svg>'
 
     //texto final
-    console.log(texto);
+    //console.log(texto);
+
+    texto = responsivoTelaToda(texto);
+
+    console.log("completo "+texto);
     
     //Copia texto (como se usuario tivesse feito um CRTL C)
     //Cria um elemento input (pode ser um textarea)
@@ -232,11 +213,44 @@ function AlturaLargura(busca,texto){
     var localAspas =  achado.search('"');
 
     var res = achado.slice(0, localAspas-2);
-   
+
+       
    return res;
-  
- 
-}
+  }
+
+  //função para deixar width/heigth em 100% e tirar viewbox & enable-background
+  function responsivoTelaToda(txt){
+
+     //busca parte do texto q será feito primeiro corte
+     let local1 =  txt.search('width="');
+     local1--;
+
+    //busca parte do texto q será feito o segundo corte
+    let local2 =  txt.search('xml:space="');
+    local2--;
+
+    //corta primeira parte do texto
+    let parte1 = txt.slice(0, local1);
+
+    //corta segunda parte do texto
+    let parte2 = txt.slice(local2,txt.length);
+
+   //  console.log("local  width "+local1);
+
+  //   console.log("local  corte final "+local2);
+
+  //   console.log("parte 1 do texto"+parte1);
+
+  //   console.log("parte 2 do texto"+parte2);
+
+     //texto a ser inserido no local cortado
+     let txtInserido = 'width="100%" height="100%"';
+
+     var txtFinal = parte1+txtInserido+parte2; 
+
+     return txtFinal;
+ //    console.log("final "+txtFinal);
+  }
 
 
 

@@ -59,10 +59,7 @@ console.groupEnd();
 
     //função para inserir valores depois de editados em texto
     insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2);
-
   }
-
-
 
 //busca recebe o valor a ser pesquisado no texto e encontra a posição que ele esta na string
 function editTxt(busca,texto){
@@ -114,8 +111,7 @@ vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
     }
    vetor[i] = parseInt(vetor[i]);
 
-   
-     //corta a parte do texto que já achou o x1 o procura o próximo x1 
+      //corta a parte do texto que já achou o x1 o procura o próximo x1 
       texto = texto.slice(local+5, texto.length);
       i++;
     }
@@ -141,8 +137,6 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
     //variavel que guarda valores do parametro
     var txtParametro = txt.slice(localParametro-1,localX1);
     
- console.log("txt parametro "+txtParametro);
- 
 
   while (txt.search('x1') != -1) {
 
@@ -179,7 +173,7 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
     texto = responsivoTelaToda(texto);
 
-    console.log("completo "+texto);
+    console.log(texto);
     
     //Copia texto (como se usuario tivesse feito um CRTL C)
     //Cria um elemento input (pode ser um textarea)
@@ -201,11 +195,9 @@ function AlturaLargura(busca,texto){
     //txt achado e separado
     let achado;
 
-
    //busca parte do texto onde têm o valor enviado na busca
    var local =  texto.search(busca);
   
-
    //Pega os 4 caracteres após o local q se encontra na busca (ou seja o valor width/heigth)
    achado = texto.substr(local+7,10);
 
@@ -213,7 +205,6 @@ function AlturaLargura(busca,texto){
     var localAspas =  achado.search('"');
 
     var res = achado.slice(0, localAspas-2);
-
        
    return res;
   }
@@ -235,14 +226,7 @@ function AlturaLargura(busca,texto){
     //corta segunda parte do texto
     let parte2 = txt.slice(local2,txt.length);
 
-   //  console.log("local  width "+local1);
-
-  //   console.log("local  corte final "+local2);
-
-  //   console.log("parte 1 do texto"+parte1);
-
-  //   console.log("parte 2 do texto"+parte2);
-
+ 
      //texto a ser inserido no local cortado
      let txtInserido = 'width="100%" height="100%"';
 

@@ -90,7 +90,7 @@ function editTxt(busca,texto){
      valorAposPonto = place+1;
      valorAntesPonto = place-1; 
 
-   // console.log("valor antes do ponto "+vetor[i][valorAntesPonto]);
+    //console.log("valor antes do ponto "+vetor[i][valorAntesPonto]);
    // console.log("valor depois do ponto "+vetor[i][valorAposPonto]);
    
       if(vetor[i][valorAposPonto]<=5){
@@ -113,9 +113,10 @@ vetor[i] = vetor[i].slice(0,valorAntesPonto+1);
 
       //corta a parte do texto que já achou o x1 o procura o próximo x1 
       texto = texto.slice(local+5, texto.length);
-      i++;
+            i++;
     }
  
+
     //retorna vetor com valores
     return vetor;
   }
@@ -129,11 +130,11 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
   //busca parte do texto onde têm o valor enviado na busca
 
 
+
     //local onde se inicia os parametros do sgv fill, stroke....
     var localParametro = txt.search('<line');
     var localX1 = txt.search('x1=');
   
-
     //variavel que guarda valores do parametro
     var txtParametro = txt.slice(localParametro-1,localX1);
     
@@ -145,23 +146,20 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
 
   
       somaLocal = somaLocal +parseInt(local);
-   ////   console.log("soma local "+somaLocal);
+      console.log("soma local "+somaLocal);
 
       
       cortes[i]   = somaLocal;
        
-         //corta a parte do texto que já achou o x1 o procura o próximo x1 
+      //corta a parte do texto que já achou o x1 o procura o próximo x1 
       txt = txt.slice(local+5, txt.length);
-      i++;
-
-    
+      i++;    
   }
 
 
-  texto = texto.slice(0,localParametro-1);
-
-    for(i=0;  i < cortes.length-2; i++){
-     // console.log(cortes[i]+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>');
+  //texto = texto.slice(0,localParametro-1);
+    for(i=0;  i < cortes.length; i++){
+      console.log("Cortes "+cortes[i]+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>');
 
      
     texto = texto + txtParametro+'x1="'+vetorX1[i]+'%" '+'x2="'+vetorX2[i]+'%" '+'y1="'+vetorY1[i]+'%" '+'y2="'+vetorY2[i]+'%"/>';
@@ -169,11 +167,11 @@ function insereValoresEmTxt(texto,vetorX1,vetorX2,vetorY1,vetorY2){
     texto=texto+'</svg>'
 
     //texto final
-    //console.log(texto);
+    //console.log("Total "+texto);
 
     texto = responsivoTelaToda(texto);
 
-    console.log(texto);
+   // console.log(texto);
     
     //Copia texto (como se usuario tivesse feito um CRTL C)
     //Cria um elemento input (pode ser um textarea)
@@ -217,8 +215,11 @@ function AlturaLargura(busca,texto){
      local1--;
 
     //busca parte do texto q será feito o segundo corte
-    let local2 =  txt.search('xml:space="');
-    local2--;
+    let local2 =  txt.search('</svg>');
+
+    //gambiarra pra resolver
+    local2++;local2++;local2++;local2++;local2++;local2++;
+
 
     //corta primeira parte do texto
     let parte1 = txt.slice(0, local1);
@@ -226,14 +227,17 @@ function AlturaLargura(busca,texto){
     //corta segunda parte do texto
     let parte2 = txt.slice(local2,txt.length);
 
- 
+    console.log("parte 2 " +parte2);
+      //erro ta na parte 2
      //texto a ser inserido no local cortado
-     let txtInserido = 'width="100%" height="100%"';
+     let txtInserido = 'width="100%" height="100%">';
 
      var txtFinal = parte1+txtInserido+parte2; 
 
+
+     console.log("final "+txtFinal);
+     
      return txtFinal;
- //    console.log("final "+txtFinal);
   }
 
 
